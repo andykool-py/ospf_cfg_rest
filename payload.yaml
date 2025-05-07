@@ -1,5 +1,5 @@
 
-ip_config_multiple:
+interface_config:
   template: |
     <load-configuration action="merge">
       <configuration>
@@ -24,7 +24,7 @@ ip_config_multiple:
     </load-configuration>
 
 
-ospf_config_clean:
+ospf_config:
   template: |
     <load-configuration action="merge">
       <configuration>
@@ -52,3 +52,12 @@ ospf_config_clean:
       </configuration>
     </load-configuration>
 
+commit_config:
+  template: |
+    <commit-configuration/>
+
+rollback_config:
+  template: |
+    <rollback-configuration>
+      <rollback-number>3</rollback-number>
+    </rollback-configuration>
