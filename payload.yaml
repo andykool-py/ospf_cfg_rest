@@ -1,0 +1,54 @@
+
+ip_config_multiple:
+  template: |
+    <load-configuration action="merge">
+      <configuration>
+        <interfaces>
+          {% for iface in interfaces %}
+          <interface>
+            <name>{{ iface.name }}</name>
+            <unit>
+              <name>0</name>
+              <family>
+                <inet>
+                  <address>
+                    <name>{{ iface.ip }}</name>
+                  </address>
+                </inet>
+              </family>
+            </unit>
+          </interface>
+          {% endfor %}
+        </interfaces>
+      </configuration>
+    </load-configuration>
+
+
+ospf_config_clean:
+  template: |
+    <load-configuration action="merge">
+      <configuration>
+        <routing-options>
+          <router-id>{{ router_id }}</router-id>
+        </routing-options>
+        <protocols>
+          <ospf>
+            {%- set areas_seen = [] %}
+            {%- for iface in interfaces %}
+              {%- if iface.ospf_area not in areas_seen %}
+                {%- set _ = areas_seen.append(iface.ospf_area) %}
+                <area>
+                  <name>{{ iface.ospf_area }}</name>
+                  {%- for i in interfaces if i.ospf_area == iface.ospf_area %}
+                  <interface>
+                    <name>{{ i.name }}.0</name>
+                  </interface>
+                  {%- endfor %}
+                </area>
+              {%- endif %}
+            {%- endfor %}
+          </ospf>
+        </protocols>
+      </configuration>
+    </load-configuration>
+

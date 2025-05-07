@@ -1,0 +1,77 @@
+devices:
+  - name: vmx1
+    ip: 66.129.235.202
+    port: 36008
+    username: jcluser
+    password: Juniper!1
+    router-id: 0.0.0.1
+    interfaces:
+      - name: ge-0/0/0
+        ip: 100.10.1.1/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/1
+        ip: 100.10.8.1/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/2
+        ip: 100.10.7.1/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/3
+        ip: 100.10.6.1/24
+        ospf_area: 0.0.0.1
+
+  - name: vmx2
+    ip: 66.129.235.202
+    port: 36011
+    username: jcluser
+    password: Juniper!1
+    interfaces:
+      - name: ge-0/0/0
+        ip: 100.10.1.2/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/1
+        ip: 100.10.9.1/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/2
+        ip: 100.10.10.1/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/3
+        ip: 100.10.2.1/24
+        ospf_area: 0.0.0.1
+
+  - name: vmx3
+    ip: 66.129.235.202
+    port: 36014
+    username: jcluser
+    password: Juniper!1
+    interfaces:
+      - name: ge-0/0/0
+        ip: 100.10.4.2/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/1
+        ip: 100.10.9.2/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/2
+        ip: 100.10.7.2/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/4
+        ip: 100.10.5.1/24
+        ospf_area: 0.0.0.1
+
+  - name: vmx4
+    ip: 66.129.235.202
+    port: 36017
+    username: jcluser
+    password: Juniper!1
+    interfaces:
+      - name: ge-0/0/0
+        ip: 100.10.4.1/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/1
+        ip: 100.10.8.2/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/2
+        ip: 100.10.10.2/24
+        ospf_area: 0.0.0.0
+      - name: ge-0/0/4
+        ip: 100.10.3.2/24
+        ospf_area: 0.0.0.1
