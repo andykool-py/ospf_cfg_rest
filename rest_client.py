@@ -91,3 +91,46 @@ def commit_configuration(device):
     print(f"\n{status_color}[REST] Commit on {device['name']} - Status: {response.status_code}")
     print(response.text)
     return response.status_code, response.text
+
+# ───────────────────────────────────────────────────────────────
+# Sends Commit Operation
+# ───────────────────────────────────────────────────────────────
+
+def get_rpc_output(device, rpc_call):
+    """
+    Sends a GET request to retrieve info from the Junos RPC interface.
+
+    Args:
+        device (dict): Device info (ip, port, credentials)
+        rpc_call (str): RPC operation (e.g. 'get-ospf-overview-information')
+
+    Returns:
+        tuple: (status_code, response_text)
+    """
+    url = f"http://{device['ip']}:{device['port']}/rpc/{rpc_call}"
+    headers = {
+        "Content-Type": "application/xml",
+        "Accept": "application/xml"
+    }
+
+    try:
+        response = requests.get(
+            url,
+            headers=headers,
+            auth=HTTPBasicAuth(device['username'], device['password'])
+        )
+
+        status_color = (
+            Fore.GREEN if response.status_code == 200 else
+            Fore.YELLOW if 400 <= response.status_code < 500 else
+            Fore.RED
+        )
+
+        print(f"\n{status_color}[RPC GET] {rpc_call} on {device['name']} - Status: {response.status_code}")
+        print(response.text)
+
+        return response.status_code, response.text
+
+    except requests.exceptions.RequestException as e:
+        print(f"{Fore.RED}[ERROR] Failed RPC GET for {device['name']}: {e}")
+        return None, str(e)
