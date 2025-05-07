@@ -9,25 +9,51 @@ with open("config.yaml") as f:
 
 devices = config['devices']
 
-# Loop through vmx1 to vmx6
+# Junos 'set' commands to delete specific interfaces and ospf
+reset_cmds = [
+    "delete interfaces ge-0/0/0",
+    "delete interfaces ge-0/0/1",
+    "delete interfaces ge-0/0/2",
+    "delete interfaces ge-0/0/3",
+    "delete interfaces ge-0/0/4",
+    "delete interfaces lo0",
+    "delete protocols ospf"
+]
+
 for device in devices:
     name = device['name']
-    print(f"\n=== Connecting to {name} ===")
+    print(f"\n=== Resetting config on {name} ===")
 
     try:
-        # Connect to the device
-        dev = Device(host=device['ip'], user=device['username'], passwd=device['password'], port=device['netconf_port'])
+        dev = Device(
+            host=device['ip'],
+            user=device['username'],
+            passwd=device['password'],
+            port=device['netconf_port']
+        )
         dev.open()
-
-        # Bind config utility
         dev.bind(cfg=Config)
-        dev.cfg.rollback(rb_id=3)
+        dev.cfg.lock()
+
+        for cmd in reset_cmds:
+            try:
+                dev.cfg.load(cmd, format="set")
+                print(f"[{name}] Loaded: {cmd}")
+            except ConfigLoadError as e:
+                if "statement not found" in str(e):
+                    print(f"[{name}] Skipped (not found): {cmd}")
+                else:
+                    print(f"[{name}] ERROR loading cmd: {cmd} => {e}")
+
         dev.cfg.commit()
+        print(f"[{name}] Configuration committed successfully.")
 
-        print(f"[SUCCESS] Rolled back and committed on {name}")
-
-    except (ConnectError, ConfigLoadError, CommitError) as e:
-        print(f"[ERROR] Failed on {name}: {e}")
+    except (ConnectError, CommitError) as e:
+        print(f"[ERROR] on {name}: {e}")
 
     finally:
+        try:
+            dev.cfg.unlock()
+        except:
+            pass
         dev.close()
