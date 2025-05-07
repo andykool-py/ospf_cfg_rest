@@ -39,10 +39,3 @@ def configure_all_devices():
         summary.append(result)
 
     return summary
-
-# get_ospf_overview = "get-ospf-overview-information"
-#
-# # send_payload(device,get_ospf_overview)
-# ospf_overview_vmx1 = get_rpc_output(devices["vmx1"], get_ospf_overview)
-#
-# print(ospf_overview_vmx1)
