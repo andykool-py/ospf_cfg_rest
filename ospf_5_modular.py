@@ -4,7 +4,7 @@ from jinja2 import Template
 with open("config.yaml") as f:
     config = yaml.safe_load(f)
 
-with open("payload.yaml") as f:
+with open("payloads.yaml") as f:
     payloads = yaml.safe_load(f)
 
 interface_template = payloads["interface_config"]["template"]

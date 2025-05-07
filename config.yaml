@@ -1,14 +1,20 @@
+# config.yaml
+# Defines all Juniper devices, their access ports, OSPF areas, and interfaces.
+# Reuses common values (IP, credentials) via YAML anchors for maintainability.
+
+# ─────────────── Default Parameters for All Devices ───────────────
 defaults: &device_defaults
   ip: 66.129.235.200
   username: jcluser
   password: Juniper!1
 
+# ─────────────── List of All Devices ───────────────
 devices:
   - name: vmx1
     <<: *device_defaults
-    ssh_port: 33009
-    netconf_port: 33007
-    port: 33008
+    ssh_port: 33009         # SSH (CLI) access
+    netconf_port: 33007     # NETCONF (for PyEZ)
+    port: 33008             # REST API port
     router-id: &lo0vmx1_ip 10.100.100.1
     interfaces:
       - name: ge-0/0/0
@@ -23,7 +29,7 @@ devices:
       - name: ge-0/0/3
         ip: 10.100.15.1/24
         ospf_area: 0.0.0.1
-      - name: lo0
+      - name: lo0             # Loopback used as router ID
         ip: *lo0vmx1_ip
         ospf_area: 0.0.0.0
 

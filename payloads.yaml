@@ -1,4 +1,7 @@
+# payloads.yaml
+# This file contains Jinja2-rendered XML payloads for configuring Junos devices via REST.
 
+# ─────────────── Interface Configuration ───────────────
 interface_config:
   template: |
     <load-configuration action="merge">
@@ -23,7 +26,7 @@ interface_config:
       </configuration>
     </load-configuration>
 
-
+# ─────────────── OSPF Configuration ───────────────
 ospf_config:
   template: |
     <load-configuration action="merge">
@@ -52,12 +55,7 @@ ospf_config:
       </configuration>
     </load-configuration>
 
+# ─────────────── Commit Configuration ───────────────
 commit_config:
   template: |
     <commit-configuration/>
-
-rollback_config:
-  template: |
-    <rollback-configuration>
-      <rollback-number>3</rollback-number>
-    </rollback-configuration>

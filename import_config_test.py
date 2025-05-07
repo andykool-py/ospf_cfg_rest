@@ -1,10 +1,10 @@
 import yaml
 from jinja2 import Template
 
-with open("Config.yaml","r") as file:
+with open("config.yaml", "r") as file:
     config = yaml.safe_load(file)
 
-with open("payload.yaml","r") as file:
+with open("payloads.yaml","r") as file:
     payload = yaml.safe_load(file)
 
 vmx1 = config['devices'][0]
