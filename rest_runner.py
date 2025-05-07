@@ -9,30 +9,38 @@ It imports:
 """
 
 from build_device_payloads import interface_payloads, ospf_payloads, devices
-from rest_client import send_payload, commit_configuration
+from rest_client import send_payload, commit_configuration, get_rpc_output
 
 # ───────────────────────────────────────────────────────────────
 # Push Payloads and Commit for All Devices
 # ───────────────────────────────────────────────────────────────
 
-for i in range(1, len(devices) + 1):
-    name = f"vmx{i}"
-    device = devices[name]
+# for i in range(1, len(devices) + 1):
+#     name = f"vmx{i}"
+#     device = devices[name]
+#
+#
+#     print(f"\n{'='*60}")
+#     print(f"Starting configuration push for {name}")
+#     print(f"{'='*60}")
+#
+#     # Send interface configuration
+#     print(f"\nSending Interface Config to {name}")
+#     send_payload(device, interface_payloads[name])
+#
+#     # Send OSPF configuration
+#     print(f"\nSending OSPF Config to {name}")
+#     send_payload(device, ospf_payloads[name])
+#
+#     # Commit configuration
+#     print(f"\nCommitting Config on {name}")
+#     commit_configuration(device)
+#
+#     print(f"\nFinished with {name}\n{'-'*60}")
 
-    print(f"\n{'='*60}")
-    print(f"Starting configuration push for {name}")
-    print(f"{'='*60}")
+get_ospf_overview = "get-ospf-overview-information"
 
-    # Send interface configuration
-    print(f"\nSending Interface Config to {name}")
-    send_payload(device, interface_payloads[name])
+# send_payload(device,get_ospf_overview)
+ospf_overview_vmx1 = get_rpc_output(devices["vmx1"], get_ospf_overview)
 
-    # Send OSPF configuration
-    print(f"\nSending OSPF Config to {name}")
-    send_payload(device, ospf_payloads[name])
-
-    # Commit configuration
-    print(f"\nCommitting Config on {name}")
-    commit_configuration(device)
-
-    print(f"\nFinished with {name}\n{'-'*60}")
+print(ospf_overview_vmx1)

@@ -134,3 +134,40 @@ def get_rpc_output(device, rpc_call):
     except requests.exceptions.RequestException as e:
         print(f"{Fore.RED}[ERROR] Failed RPC GET for {device['name']}: {e}")
         return None, str(e)
+
+def ping_host(device, target_ip):
+    """
+    Sends a ping RPC to the device via REST API.
+
+    Args:
+        device (dict): Device info
+        target_ip (str): Destination IP to ping
+
+    Returns:
+        tuple: (status_code, response_text)
+    """
+    url = f"http://{device['ip']}:{device['port']}/rpc/"
+    headers = {
+        "Content-Type": "application/xml",
+        "Accept": "application/xml"
+    }
+
+    payload = f"<ping><host>{target_ip}</host></ping>"
+
+    try:
+        response = requests.post(
+            url,
+            headers=headers,
+            data=payload,
+            auth=HTTPBasicAuth(device['username'], device['password'])
+        )
+
+        color = Fore.GREEN if response.status_code == 200 else Fore.RED
+        print(f"\n{color}[PING] from {device['name']} to {target_ip} - Status: {response.status_code}")
+        print(response.text)
+
+        return response.status_code, response.text
+
+    except requests.exceptions.RequestException as e:
+        print(f"{Fore.RED}[ERROR] Ping failed from {device['name']} to {target_ip}: {e}")
+        return None, str(e)
