@@ -135,6 +135,10 @@ def get_rpc_output(device, rpc_call):
         print(f"{Fore.RED}[ERROR] Failed RPC GET for {device['name']}: {e}")
         return None, str(e)
 
+# ───────────────────────────────────────────────────────────────
+# Ping Host Operation
+# ───────────────────────────────────────────────────────────────
+
 def ping_host(device, target_ip):
     """
     Sends a ping RPC to the device via REST API.
@@ -164,7 +168,7 @@ def ping_host(device, target_ip):
 
         color = Fore.GREEN if response.status_code == 200 else Fore.RED
         print(f"\n{color}[PING] from {device['name']} to {target_ip} - Status: {response.status_code}")
-        print(response.text)
+        # print(response.text)
 
         return response.status_code, response.text
 
