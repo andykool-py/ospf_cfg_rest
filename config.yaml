@@ -12,9 +12,9 @@ defaults: &device_defaults
 devices:
   - name: vmx1
     <<: *device_defaults
-    ssh_port: 33009         # SSH (CLI) access
-    netconf_port: 33007     # NETCONF (for PyEZ)
-    port: 33008             # REST API port
+    ssh_port: 46009         # SSH (CLI) access
+    netconf_port: 46007     # NETCONF (for PyEZ)
+    port: 46008             # REST API port
     router-id: &lo0vmx1_ip 10.100.100.1
     interfaces:
       - name: ge-0/0/0
@@ -35,9 +35,9 @@ devices:
 
   - name: vmx2
     <<: *device_defaults
-    ssh_port: 33012
-    netconf_port: 33010
-    port: 33011
+    ssh_port: 46012
+    netconf_port: 46010
+    port: 46011
     router-id: &lo0vmx2_ip 10.100.100.2
     interfaces:
       - name: ge-0/0/0
@@ -58,9 +58,9 @@ devices:
 
   - name: vmx3
     <<: *device_defaults
-    ssh_port: 33015
-    netconf_port: 33013
-    port: 33014
+    ssh_port: 46015
+    netconf_port: 46013
+    port: 46014
     router-id: &lo0vmx3_ip 10.100.100.3
     interfaces:
       - name: ge-0/0/0
@@ -81,9 +81,9 @@ devices:
 
   - name: vmx4
     <<: *device_defaults
-    ssh_port: 33018
-    netconf_port: 33016
-    port: 33017
+    ssh_port: 46018
+    netconf_port: 46016
+    port: 46017
     router-id: &lo0vmx4_ip 10.100.100.4
     interfaces:
       - name: ge-0/0/0
@@ -104,9 +104,9 @@ devices:
 
   - name: vmx5
     <<: *device_defaults
-    ssh_port: 33021
-    netconf_port: 33019
-    port: 33020
+    ssh_port: 46021
+    netconf_port: 46019
+    port: 46020
     router-id: &lo0vmx5_ip 10.100.100.5
     interfaces:
       - name: ge-0/0/3
@@ -121,9 +121,9 @@ devices:
 
   - name: vmx6
     <<: *device_defaults
-    ssh_port: 33024
-    netconf_port: 33022
-    port: 33023
+    ssh_port: 46024
+    netconf_port: 46022
+    port: 46023
     router-id: &lo0vmx6_ip 10.100.100.6
     interfaces:
       - name: ge-0/0/3
