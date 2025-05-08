@@ -127,7 +127,7 @@ def get_rpc_output(device, rpc_call):
         )
 
         print(f"\n{status_color}[RPC GET] {rpc_call} on {device['name']} - Status: {response.status_code}")
-        print(response.text)
+        # print(response.text)
 
         return response.status_code, response.text
 

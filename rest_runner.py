@@ -39,3 +39,5 @@ def configure_all_devices():
         summary.append(result)
 
     return summary
+
+a = get_rpc_output(devices[0], )
