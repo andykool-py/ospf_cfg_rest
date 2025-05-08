@@ -1,4 +1,16 @@
 # verify_ospf_config.py
+
+"""
+This module verifies OSPF configuration across multiple Juniper devices.
+It gathers information such as:
+- OSPF neighbors
+- OSPF interface status
+- OSPF routes
+- OSPF database
+
+Each result is printed and stored for further use or analysis.
+"""
+
 from xml_parser import (
     fetch_ospf_interface, parse_ospf_interfaces,
     fetch_ospf_routes, parse_ospf_routes,
@@ -6,10 +18,16 @@ from xml_parser import (
     fetch_ospf_database, parse_ospf_database
 )
 
+
 def check_ospf_status(devices):
     """
-    Checks and prints OSPF status (neighbors, interfaces, routes, database)
-    for a list of devices.
+    Checks and prints OSPF status for each device in the given list.
+
+    Args:
+        devices (list): A list of device dictionaries containing connection details.
+
+    Returns:
+        list: A list of dictionaries containing parsed OSPF data for each device.
     """
     all_results = []
 
@@ -19,7 +37,7 @@ def check_ospf_status(devices):
         device_result = {"device": device_name}
 
         try:
-            # Neighbors
+            # ───────────── OSPF Neighbors ─────────────
             status, xml_nbr = fetch_ospf_neighbor(device)
             if status == 200:
                 neighbors = parse_ospf_neighbors(xml_nbr)
@@ -30,7 +48,7 @@ def check_ospf_status(devices):
             else:
                 print(f"⚠️  Neighbor check failed (HTTP {status})")
 
-            # Interfaces
+            # ───────────── OSPF Interfaces ─────────────
             status, xml_intf = fetch_ospf_interface(device)
             if status == 200:
                 interfaces = parse_ospf_interfaces(xml_intf)
@@ -39,7 +57,7 @@ def check_ospf_status(devices):
                     print(f"  {intf['name']} | Area {intf['area']} | DR: {intf['dr']} | Neighbors: {intf['neighbors']}")
                 device_result["interfaces"] = interfaces
 
-            # Routes
+            # ───────────── OSPF Routes ─────────────
             status, xml_route = fetch_ospf_routes(device)
             if status == 200:
                 routes = parse_ospf_routes(xml_route)
@@ -48,7 +66,7 @@ def check_ospf_status(devices):
                     print(f"  {route['destination']} via {route['next_hop']} ({route['type']})")
                 device_result["routes"] = routes
 
-            # Database
+            # ───────────── OSPF Database ─────────────
             status, xml_db = fetch_ospf_database(device)
             if status == 200:
                 databases = parse_ospf_database(xml_db)

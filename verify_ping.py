@@ -1,11 +1,29 @@
+# verify_ping.py
+
+"""
+This module verifies end-to-end loopback reachability across all configured devices.
+It performs:
+- A full mesh ping test between router loopbacks.
+- Parsing of XML results for RTT and packet loss.
+- Displays and returns a summary table of ping success.
+"""
+
 from build_device_payloads import devices
 from rest_client import ping_host
 from xml_parser import parse_ping_results
 
+
 def verify_all_device_pings():
     """
-    Pings all loopbacks from every device to every other device.
-    Prints and returns a list of results in summary format.
+    Executes ping tests from every device to all others.
+
+    Returns:
+        List[dict]: A list of ping result dictionaries with fields:
+                    - source
+                    - target
+                    - target_ip
+                    - packet_loss (%)
+                    - rtt_avg (ms)
     """
     results = []
 
@@ -14,10 +32,12 @@ def verify_all_device_pings():
 
         for dst_name, dst_device in devices.items():
             if src_name == dst_name:
-                continue
+                continue  # Skip self-ping
 
+            # Send ping RPC
             status, xml = ping_host(src_device, dst_device["router-id"])
 
+            # Parse and summarize result
             if status == 200:
                 stats = parse_ping_results(xml)
                 result = {
@@ -36,7 +56,7 @@ def verify_all_device_pings():
                     "rtt_avg": "N/A"
                 }
 
-            # Print the result in summary format immediately
+            # Print formatted output
             print(f"{result['source']} → {result['target']} ({result['target_ip']}): "
                   f"Loss = {result['packet_loss']}%, Avg RTT = {result['rtt_avg']} ms")
 

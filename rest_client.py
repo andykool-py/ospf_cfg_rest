@@ -47,7 +47,7 @@ def send_payload(device, payload):
         )
 
         print(f"\n{status_color}[REST] Sent to {device['name']} - Status: {response.status_code}")
-        print(response.text)
+        # print(response.text)
         return response.status_code, response.text
 
     except requests.exceptions.RequestException as e:
@@ -89,7 +89,7 @@ def commit_configuration(device):
     )
 
     print(f"\n{status_color}[REST] Commit on {device['name']} - Status: {response.status_code}")
-    print(response.text)
+    # print(response.text)
     return response.status_code, response.text
 
 # ───────────────────────────────────────────────────────────────
