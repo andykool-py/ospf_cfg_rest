@@ -1,6 +1,6 @@
 from build_device_payloads import devices
 from rest_client import ping_host
-from xml_parse import parse_ping_results
+from xml_parser import parse_ping_results
 
 def verify_all_device_pings():
     """
@@ -43,5 +43,3 @@ def verify_all_device_pings():
             results.append(result)
 
     return results
-
-# verify_all_device_pings()
